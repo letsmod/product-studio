@@ -1,0 +1,162 @@
+{
+  "resolution": [1920, 1080],
+  "fps": 30,
+  "engine": "EEVEE",
+  "eevee_samples": 64,
+  "cycles_samples": 64,
+  "use_gpu": true,
+  "lens_mm": 50,
+  "fill": 0.68,
+  "white_background": true,
+  "view_transform": "Standard",
+  "light_brightness": 1.0,
+  "sun_strength": 0.0,
+  "exposure": 0.0,
+  "ambient": 0.08,
+  "shots": [
+    {
+      "id": "orbit_eye",
+      "enabled": true,
+      "type": "orbit",
+      "elev_deg": 18,
+      "azimuth_start_deg": 0,
+      "azimuth_end_deg": 360,
+      "seconds": 5,
+      "fill": 0.68,
+      "description": "Classic 360 turntable at eye height. Core clip for product identity."
+    },
+    {
+      "id": "orbit_high",
+      "enabled": true,
+      "type": "orbit",
+      "elev_deg": 42,
+      "azimuth_start_deg": 0,
+      "azimuth_end_deg": 360,
+      "seconds": 5,
+      "fill": 0.68,
+      "description": "High 360. Shows top planes, lids, and upper silhouettes."
+    },
+    {
+      "id": "orbit_low",
+      "enabled": true,
+      "type": "orbit",
+      "elev_deg": 6,
+      "azimuth_start_deg": 0,
+      "azimuth_end_deg": 360,
+      "seconds": 5,
+      "fill": 0.68,
+      "description": "Low 360. Table-level silhouette and underside lip."
+    },
+    {
+      "id": "helix",
+      "enabled": true,
+      "type": "helix",
+      "elev_start_deg": 8,
+      "elev_end_deg": 70,
+      "azimuth_start_deg": 0,
+      "azimuth_end_deg": 360,
+      "seconds": 6,
+      "fill": 0.68,
+      "description": "Spiral: one full rotation while the camera rises. Dense viewpoint coverage in one clip."
+    },
+    {
+      "id": "hero_arc",
+      "enabled": true,
+      "type": "orbit",
+      "elev_deg": 18,
+      "azimuth_start_deg": 25,
+      "azimuth_end_deg": 115,
+      "seconds": 3,
+      "fill": 0.72,
+      "description": "Short 3/4 commercial arc. Natural product-video motion."
+    },
+    {
+      "id": "dolly_in",
+      "enabled": true,
+      "type": "dolly",
+      "elev_deg": 18,
+      "azimuth_deg": 40,
+      "fill_start": 0.48,
+      "fill_end": 0.86,
+      "seconds": 3,
+      "description": "Slow push-in on a hero 3/4 angle. Teaches scale and surface detail."
+    },
+    {
+      "id": "vertical_three_quarter",
+      "enabled": true,
+      "type": "vertical",
+      "azimuth_deg": 40,
+      "elev_start_deg": -8,
+      "elev_end_deg": 80,
+      "seconds": 4,
+      "fill": 0.68,
+      "description": "Elevation sweep at a 3/4 azimuth. Complements the horizontal orbits."
+    },
+    {
+      "id": "vertical_orbit",
+      "enabled": true,
+      "type": "vertical",
+      "azimuth_deg": 0,
+      "elev_start_deg": 18,
+      "elev_end_deg": 162,
+      "seconds": 5,
+      "fill": 0.68,
+      "description": "Front-to-back over the top. Starts facing the product, ends facing the back."
+    },
+    {
+      "id": "orbit_top",
+      "enabled": false,
+      "type": "orbit",
+      "elev_deg": 78,
+      "azimuth_start_deg": 0,
+      "azimuth_end_deg": 360,
+      "seconds": 5,
+      "fill": 0.7,
+      "description": "Nearly top-down 360. Enable for lids, panels, and layout-heavy products."
+    },
+    {
+      "id": "orbit_eye_reverse",
+      "enabled": false,
+      "type": "orbit",
+      "elev_deg": 18,
+      "azimuth_start_deg": 360,
+      "azimuth_end_deg": 0,
+      "seconds": 5,
+      "fill": 0.68,
+      "description": "Same as orbit_eye, opposite direction."
+    },
+    {
+      "id": "orbit_close",
+      "enabled": false,
+      "type": "orbit",
+      "elev_deg": 18,
+      "azimuth_start_deg": 0,
+      "azimuth_end_deg": 360,
+      "seconds": 5,
+      "fill": 0.88,
+      "description": "Tight 360. More surface/material, less silhouette."
+    },
+    {
+      "id": "dolly_out",
+      "enabled": false,
+      "type": "dolly",
+      "elev_deg": 18,
+      "azimuth_deg": 40,
+      "fill_start": 0.86,
+      "fill_end": 0.48,
+      "seconds": 3,
+      "description": "Pull-back from close-up to a full product view."
+    },
+    {
+      "id": "vertical_front",
+      "enabled": false,
+      "type": "vertical",
+      "azimuth_deg": 0,
+      "elev_start_deg": -8,
+      "elev_end_deg": 80,
+      "seconds": 4,
+      "fill": 0.68,
+      "description": "Front elevation sweep. Useful when the product has a clear face."
+    }
+  ]
+}

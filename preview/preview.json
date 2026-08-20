@@ -1,0 +1,55 @@
+{
+  "input": "D:\\Work\\PathLLM\\POC\\product-dataset-studio\\input\\teabox.glb",
+  "demo": false,
+  "output": "D:\\Work\\PathLLM\\POC\\product-dataset-studio\\output",
+  "config": "D:\\Work\\PathLLM\\POC\\product-dataset-studio\\config.json",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 30,
+  "engine": "EEVEE",
+  "lights_follow_camera": true,
+  "png_every": null,
+  "bounds": {
+    "min": [
+      -0.08000002056360245,
+      -0.03600001335144043,
+      -0.10000002384185791
+    ],
+    "max": [
+      0.08000002056360245,
+      0.03600001335144043,
+      0.10000002384185791
+    ],
+    "size": [
+      0.1600000411272049,
+      0.07200002670288086,
+      0.20000004768371582
+    ],
+    "radius": 0.13302634489247042,
+    "center": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "clips": [
+    {
+      "id": "orbit_eye",
+      "type": "orbit",
+      "frames": 150,
+      "description": "Classic 360 turntable at eye height. Core clip for product identity.",
+      "lights_follow_camera": true,
+      "preview": "D:\\Work\\PathLLM\\POC\\product-dataset-studio\\preview\\orbit_eye.png"
+    },
+    {
+      "id": "vertical_orbit",
+      "type": "vertical",
+      "frames": 150,
+      "description": "Front-to-back over the top. Starts facing the product, ends facing the back.",
+      "lights_follow_camera": true,
+      "preview": "D:\\Work\\PathLLM\\POC\\product-dataset-studio\\preview\\vertical_orbit.png"
+    }
+  ]
+}

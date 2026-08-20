@@ -1,70 +1,92 @@
-# template-default
+# Product Dataset Studio
 
-Default template for a new LetsMOD Repository.
+Turn a 3D product model into isolated, white-background clips for AI video/image training. You do not need to click around in Blender.
 
-## Overview
+Drop a model in `input\`, pick MP4 and/or PNG, get clips in `output\<model-name>\`.
 
-<!-- TODO: Update with project-specific description -->
+## Quick start
 
-This repository was created from the LetsMOD default template. Update this
-section with a description of what this project does.
+1. Install [Blender](https://www.blender.org/download/) (4.x) if it is not already installed.
+2. Copy your model into `input\` (`.glb`, `.gltf`, `.fbx`, or `.obj`).
+3. From this folder, in a terminal:
 
-## Getting Started
-
-<!-- TODO: Update with actual setup instructions -->
-
-### Prerequisites
-
-- Node.js (see `.tool-versions` for version)
-- npm
-
-### Installation
-
-```shell
-npm install
+```powershell
+python studio.py --mp4
 ```
 
-### Development
+Videos land in `output\<model-name>\` (`orbit_eye.mp4`, `helix.mp4`, …).
 
-```shell
-# Run the application
-npm start
+Want stills instead, or both:
 
-# Run tests
-npm test
-
-# Run linting
-npm run lint
+```powershell
+python studio.py --png
+python studio.py --mp4 --png
 ```
 
-## Project Structure
+Optional checks:
 
-<!-- TODO: Update with actual project structure -->
-
-```plaintext
-src/              # Source code
-tests/            # Test files
-docs/             # Documentation
+```powershell
+python studio.py --demo --preview          # stills of Suzanne, no model needed
+python studio.py --preview                 # one still per shot of your model
+python studio.py --list                    # shot names
+python studio.py --mp4 --shots "orbit_eye,helix"
+python studio.py --png --png-interval 1    # a PNG of every frame
+python studio.py --mp4 --input "D:\models\bottle.glb"
 ```
 
-## Contributing
+`python studio.py --help` lists every required and optional flag, plus the `config.json` fields. Running `python studio.py` with no arguments prints the same help.
 
-1. Create a feature branch from `develop`
-2. Make your changes following our coding guidelines
-3. Submit a pull request with a descriptive title
+## Why this setup
 
-See [AGENTS.md](AGENTS.md) for detailed development guidelines including commit
-message format, code style, and PR conventions.
+For product LoRAs and video models, you want many smooth viewpoints of the **same object**, same lighting, no room, no table, no busy background. A Python script inside Blender is the reliable way: it imports the file, frames the object, moves a camera along known paths, and writes H.264 MP4s and/or PNG stills.
 
-## AI Agent Instructions
+PNG sequences (`--png`) are better if you later extract frames for an image LoRA. Use `--mp4 --png` when you want both from one run.
 
-This repository includes instructions for AI coding assistants:
+## Default shots (video-gen useful set)
 
-- [AGENTS.md](AGENTS.md) - General instructions for all AI coding tools
-- [CLAUDE.md](CLAUDE.md) - Claude Code-specific instructions and behaviors
+| Clip | What it is | Why it helps |
+|---|---|---|
+| `orbit_eye` | 360° at ~18° elevation | Core identity / turntable |
+| `orbit_high` | 360° at ~42° | Top planes, lids, upper form |
+| `orbit_low` | 360° at ~6° | Silhouette and lower lip |
+| `helix` | 360° while the camera rises | Many viewpoints in one clip |
+| `hero_arc` | Short 3/4 commercial orbit | Natural product-ad motion |
+| `dolly_in` | Slow push-in on a 3/4 angle | Scale, material, labels |
+| `vertical_three_quarter` | Low → high at a 3/4 azimuth | Complements the horizontal orbits |
 
-## License
+Also in `config.json` but off by default: near top-down 360, reverse orbit, tight close orbit, dolly-out, front elevation sweep. Set `"enabled": true` on any of them, or name them with `--shots`.
 
-<!-- TODO: Update with actual license information -->
+## Other shot types that are useful (and when)
 
-Proprietary - LetsMOD
+Horizontal and vertical orbits are the base. These are the next ones that actually help product training:
+
+- **Helix / spiral** — best extra clip. One file covers rotation and height.
+- **Short hero arc (90°)** — how product videos usually move; good for video models.
+- **Dolly in/out** — zoom with a real camera move (not FOV zoom). Teaches size and detail.
+- **Elevation-stacked turntables** — same 360 at low / eye / high. Do not rely on a single equator orbit; the model will be weak on lids and undersides.
+- **Close orbit** — fill the frame (~85–90%). Helps materials, logos, and edges.
+- **Top-down orbit** — if the product is understood from above (boxes, devices, food, cosmetics).
+- **Lighting variation** (same camera, rotate the key light) — useful later for robustness; skipped for now so the object identity stays consistent.
+- **Background randomization** — useful for recognition models, **bad** for isolated product LoRAs. This project stays on pure white.
+
+Avoid dutch angles, handheld shake, and busy sets unless you are training a cinematic look, not the product itself.
+
+## Config
+
+Edit `config.json` for resolution, fps, which shots run, and clip length. Engine default is EEVEE (fast). Set `"engine": "CYCLES"` for heavier, more realistic lighting.
+
+White isolation uses a Standard view transform so the backdrop stays actually white (Filmic/AgX would turn it grey).
+
+Most people can ignore this file. Use `--list` and `--shots` first.
+
+## Output
+
+```
+output/
+  bottle/
+    orbit_eye.mp4
+    orbit_high.mp4
+    ...
+    dataset.json          # which file, bounds, clip list
+preview/                  # from --preview
+```
