@@ -1,0 +1,77 @@
+name: Checks
+
+on:
+  # Run on all PRs
+  pull_request:
+  # It should also be possible to run all checks manually
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  pr-title:
+    name: PR title
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate PR title
+        uses: amannn/action-semantic-pull-request@v6
+        id: pr_title_check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Prevent PR titles from ending with a dot
+          subjectPattern: ^.+[^.]$
+          subjectPatternError: |
+            The PR title should not end with a dot (period).
+            Please remove the trailing dot from: "{subject}"
+
+      - name: Add a comment if PR title check fails
+        if: always() && (steps.pr_title_check.outputs.error_message != null)
+        uses: marocchino/sticky-pull-request-comment@v3.0.4
+        with:
+          header: pr-title-check-error
+          message: |
+            We would like the titles of new Pull Requests to follow the [Conventional Commits specification](https://www.conventionalcommits.org/), and it looks like your PR title needs to be adjusted.
+
+            Details:
+            ```
+            ${{ steps.pr_title_check.outputs.error_message }}
+            ```
+
+      - name: Remove the comment if the issue has been resolved
+        if: ${{ steps.pr_title_check.outputs.error_message == null }}
+        uses: marocchino/sticky-pull-request-comment@v3.0.4
+        with:
+          header: pr-title-check-error
+          delete: true
+
+  super-linter:
+    name: Super-Linter
+    if: github.actor != 'renovate[bot]' # skip for Renovate PRs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+        with:
+          # Full git history is needed to get a proper
+          # list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: Check files with Super-Linter
+        uses: super-linter/super-linter/slim@v8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUPPRESS_POSSUM: true # Disable ASCII art at startup
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
+          VALIDATE_BIOME_FORMAT: false # Disable Biome in favor of Prettier
+          VALIDATE_BIOME_LINT: false # Disable Biome in favor of ESLint
+          VALIDATE_CHECKOV: false # Security scanning is noisy for general repos
+          VALIDATE_GIT_COMMITLINT: false # Use semantic PR titles instead
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false # GHA security linter is very noisy
+          VALIDATE_JSCPD: false # Copy/paste detection is noisy

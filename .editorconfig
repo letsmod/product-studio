@@ -1,0 +1,31 @@
+# Editor configuration, see https://editorconfig.org
+root = true
+
+# Defaults for all file types
+[*]
+charset = utf-8
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# JSON data files
+[*.{json,jsonc,json5}]
+# Using defaults
+
+# YAML configuration files
+[*.{yaml,yml}]
+# Using defaults
+
+# JavaScript and TypeScript code
+[*.{js,mjs,ts,tsx}]
+quote_type = single # Recommended by Prettier and JavaScript Style Guide
+
+# Python code
+[*.py]
+indent_size = 4 # Should always be 4 spaces (PEP 8 Style Guide)
+
+# Markdown text files
+[*.md]
+max_line_length = off # Allow long lines in Markdown
+trim_trailing_whitespace = false # Two spaces at EOL to create a line break

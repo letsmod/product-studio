@@ -1,0 +1,11 @@
+# CodeRabbit configuration
+# See: https://docs.coderabbit.ai/reference/configuration
+
+language: en-US
+
+reviews:
+  # Disable automatic reviews - use on-demand only via @coderabbitai review
+  auto_review:
+    enabled: false
+  # Disable "Review skipped" status message
+  review_status: false

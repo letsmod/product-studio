@@ -1,0 +1,8 @@
+# Code Owner Rules
+# https://github.com/letsmod/docs/wiki/Code-Owner-Rules
+
+# All PRs should be reviewed by at least one team member
+* @skolobov @letsmod-alex
+
+# GitHub config should be reviewed by the DevOps team
+.github/ @skolobov @letsmod-alex
