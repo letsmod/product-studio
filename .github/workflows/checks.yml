@@ -32,7 +32,7 @@ jobs:
 
       - name: Add a comment if PR title check fails
         if: always() && (steps.pr_title_check.outputs.error_message != null)
-        uses: marocchino/sticky-pull-request-comment@v3.0.4
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: pr-title-check-error
           message: |
@@ -45,7 +45,7 @@ jobs:
 
       - name: Remove the comment if the issue has been resolved
         if: ${{ steps.pr_title_check.outputs.error_message == null }}
-        uses: marocchino/sticky-pull-request-comment@v3.0.4
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: pr-title-check-error
           delete: true
